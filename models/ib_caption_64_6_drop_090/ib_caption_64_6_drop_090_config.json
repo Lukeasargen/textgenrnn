@@ -1,0 +1,1 @@
+{"rnn_layers": 6, "rnn_size": 64, "rnn_bidirectional": true, "max_length": 40, "max_words": 1000, "dim_embeddings": 120, "word_level": false, "single_text": false, "name": "ib_caption_64_6_drop_090", "max_gen_length": 300}

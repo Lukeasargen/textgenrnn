@@ -1,0 +1,152 @@
+import os, json
+from datetime import datetime
+from textgenrnn import textgenrnn
+
+def main():
+    model_cfg = {
+        'rnn_size': 256, # number of LSTM cells of each layer (128/256 recommended)
+        'rnn_layers': 5, # number of LSTM layers (>=2 recommended)
+        'rnn_bidirectional': True, # consider text both forwards and backward, can give a training boost
+        'max_length': 40, # number of tokens to consider before predicting the next (20-40 for characters, 5-10 for words recommended)
+        'max_words': 1000, # maximum number of words to model; the rest will be ignored (word-level model only)
+        'dim_embeddings': 120,
+        'word_level': False, # set to True if want to train a word-level model (requires more data and smaller max_length)
+    }
+
+    train_cfg = {
+        'line_delimited': True, # set to True if each text has its own line in the source file
+        'num_epochs': 3, # set higher to train the model for longer
+        'gen_epochs': 1, # generates sample text from model after given number of epochs
+        'save_epochs': 1,
+        'batch_size': 128,
+        'train_size': 0.95, # proportion of input data to train on: setting < 1.0 limits model from learning perfectly
+        'dropout': 0.5, # ignore a random proportion of source tokens each epoch, allowing model to generalize better
+        'max_gen_length': 200,
+        'validation': True, # If train__size < 1.0, test on holdout dataset; will make overall training slower
+        'is_csv': False # set to True if file is a CSV exported from Excel/BigQuery/pandas
+    }
+
+    model_name = 'ib_comments_256_5_060_120'
+
+    new_model = True # False for retraining
+    text_file = 'datasets/sample100.txt'  # new model trains on this file
+
+    # If new_model=false, these are the files used for training
+    epoch = 0 # what epoch to resume training. 0 loads the last complete epoch
+    files = ['datasets/ib_comments004.txt',
+            'datasets/ib_comments005.txt',
+            'datasets/ib_comments006.txt',
+            'datasets/ib_comments007.txt',
+            'datasets/ib_comments008.txt',
+            'datasets/ib_comments009.txt',
+            'datasets/ib_comments010.txt']
+
+    # Generatates lot's of samples during retraining
+    temperatures = [[1.0, 0.5, 0.2, 0.2],
+                    [0.9, 0.9, 0.5, 0.2, 0.2, 0.2],
+                    [1.0, 0.2, 0.8, 0.2],
+                    [1.0, 0.7, 1.0, 0.1, 0.6, 0.2],
+                    [0.9, 0.4, 0.9, 0.4, 0.5, 0.1]]
+    n = 100   # number of texts to generate: set much higher if model was trained as line-delimited
+    max_gen_length = 300   # maximum size of each text: set much higher if model was trained as a single-file
+    prefix = None
+
+    if new_model:
+
+        print("---- Creating a new model... ----")
+
+        textgen = textgenrnn(name=model_name)
+
+        print("---- New model started ----")
+
+        print("Source :", text_file)
+        print("Model :", model_cfg)
+        print("Train :", train_cfg)
+
+        train_function = textgen.train_from_file if train_cfg['line_delimited'] else textgen.train_from_largetext_file
+
+        # https://colab.research.google.com/drive/1mMKGnVxirJnqDViH7BDJxFqWrsXlPSoK
+        train_function(
+            file_path=text_file,
+            new_model=True,
+            num_epochs=train_cfg['num_epochs'],
+            gen_epochs=train_cfg['gen_epochs'],
+            save_epochs=train_cfg['save_epochs'],
+            batch_size=train_cfg['batch_size'],
+            train_size=train_cfg['train_size'],
+            dropout=train_cfg['dropout'],
+            max_gen_length=train_cfg['max_gen_length'],
+            validation=train_cfg['validation'],
+            is_csv=train_cfg['is_csv'],
+            rnn_size=model_cfg['rnn_size'],
+            rnn_layers=model_cfg['rnn_layers'],
+            rnn_bidirectional=model_cfg['rnn_bidirectional'],
+            max_length=model_cfg['max_length'],
+            max_words=model_cfg['max_words'],
+            dim_embeddings=model_cfg['dim_embeddings'],
+            word_level=model_cfg['word_level']
+        )
+
+        print(textgen.model.summary())
+
+    else:
+        # Only need these once
+        vocab = 'models/{}/{}_vocab.json'.format(model_name, model_name)
+
+        config = 'models/{}/{}_config.json'.format(model_name, model_name)
+
+        with open(config) as config_file:
+            data = json.load(config_file)
+
+        for i in range(len(files)):
+
+            if i == 0:  # handle the first on differently
+                if epoch == 0:
+                    weights = 'models/{}/{}_weights.hdf5'.format(model_name,model_name)
+                else:
+                    weights = 'epochs/{}_weights_epoch_{}.hdf5'.format(model_name,model_name,epoch)
+            else:  # after hte first one, then load from current directory bc that's were textgenrnn saves
+                weights = '{}_weights.hdf5'.format(model_name)
+
+            print("Loading old model...")
+
+            textgen = textgenrnn(name=model_name,
+                                new_model=False,
+                                weights_path=weights,
+                                vocab_path=vocab,
+                                config_path=config)
+
+            print(textgen.model.summary())
+
+            print("Source :", text_file)
+            print("Train :", train_cfg)
+
+            train_function = textgen.train_from_largetext_file if data["single_text"] else textgen.train_from_file
+
+            train_function(
+                file_path=file,
+                new_model=False,
+                num_epochs=train_cfg['num_epochs'],
+                gen_epochs=train_cfg['gen_epochs'],
+                save_epochs=train_cfg['save_epochs'],
+                batch_size=train_cfg['batch_size'],
+                train_size=train_cfg['train_size'],
+                dropout=train_cfg['dropout'],
+                max_gen_length=train_cfg['max_gen_length'],
+                validation=train_cfg['validation'],
+                is_csv=train_cfg['is_csv']
+            )
+
+            print("\nGenerating sample files\n")
+
+            for temp in temperatures:
+                timestring = datetime.now().strftime('%Y%m%d_%H%M%S')
+                gen_file = '{}_gentext_{}_epoch_{}_temp_{}.txt'.format(model_name,timestring, epoch, str(temp))
+                textgen.generate_to_file(gen_file,
+                                        n=n,
+                                        prefix=prefix,
+                                        temperature=temp,
+                                        max_gen_length=max_gen_length)
+
+if __name__ == "__main__":
+    main()
