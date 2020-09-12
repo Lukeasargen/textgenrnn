@@ -1,15 +1,16 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = 'ba_brad_word_256_2_100_060'
+MODEL_NAME = 'ib_caption_96_5_drop_080'
 
 USE_PROMPT = True
 
 EPOCHS = [0]
-TEMPERATURES = [
-                [1.0, 0.5, 0.2, 0.2],
-                [0.9, 0.9, 0.5, 0.2, 0.2, 0.2]
-                ]
+
+TEMPERATURES = [[1.0, 0.5, 0.2, 0.2],
+                [0.9, 0.9, 0.5, 0.2, 0.2, 0.2],
+                [1.0, 0.2, 0.8, 0.2],
+                [1.0, 0.7, 1.0, 0.1, 0.6, 0.2],
 
 NUM_SAMPLES = 5
 MAX_GEN_LENGTH = 900

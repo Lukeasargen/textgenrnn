@@ -5,32 +5,33 @@ from textgenrnn import textgenrnn
 def main():
     model_cfg = {
         'rnn_size': 256, # number of LSTM cells of each layer (128/256 recommended)
-        'rnn_layers': 5, # number of LSTM layers (>=2 recommended)
+        'rnn_layers': 3, # number of LSTM layers (>=2 recommended)
         'rnn_bidirectional': True, # consider text both forwards and backward, can give a training boost
         'max_length': 40, # number of tokens to consider before predicting the next (20-40 for characters, 5-10 for words recommended)
         'max_words': 1000, # maximum number of words to model; the rest will be ignored (word-level model only)
-        'dim_embeddings': 120,
+        'dim_embeddings': 100,
         'word_level': False, # set to True if want to train a word-level model (requires more data and smaller max_length)
     }
 
     train_cfg = {
         'line_delimited': True, # set to True if each text has its own line in the source file
-        'num_epochs': 3, # set higher to train the model for longer
+        'num_epochs': 2, # set higher to train the model for longer
         'gen_epochs': 1, # generates sample text from model after given number of epochs
         'save_epochs': 1,
-        'batch_size': 128,
+        'batch_size': 512,
         'train_size': 0.95, # proportion of input data to train on: setting < 1.0 limits model from learning perfectly
-        'dropout': 0.5, # ignore a random proportion of source tokens each epoch, allowing model to generalize better
+        'dropout': 0.5,
         'max_gen_length': 200,
         'validation': True, # If train__size < 1.0, test on holdout dataset; will make overall training slower
         'is_csv': False # set to True if file is a CSV exported from Excel/BigQuery/pandas
     }
 
-    model_name = 'ib_comments_256_5_060_120'
+    model_name = 'sample100v1'
 
     new_model = True # False for retraining
     text_file = 'datasets/sample100.txt'  # new model trains on this file
 
+    """retraining settings below"""
     # If new_model=false, these are the files used for training
     epoch = 0 # what epoch to resume training. 0 loads the last complete epoch
     files = ['datasets/ib_comments004.txt',
@@ -45,8 +46,7 @@ def main():
     temperatures = [[1.0, 0.5, 0.2, 0.2],
                     [0.9, 0.9, 0.5, 0.2, 0.2, 0.2],
                     [1.0, 0.2, 0.8, 0.2],
-                    [1.0, 0.7, 1.0, 0.1, 0.6, 0.2],
-                    [0.9, 0.4, 0.9, 0.4, 0.5, 0.1]]
+                    [1.0, 0.7, 1.0, 0.1, 0.6, 0.2]]
     n = 100   # number of texts to generate: set much higher if model was trained as line-delimited
     max_gen_length = 300   # maximum size of each text: set much higher if model was trained as a single-file
     prefix = None
