@@ -1,16 +1,16 @@
-import tensorflow as tf
-from tensorflow import keras
-import numpy as np
-
-print("TF Version: ", tf.__version__)
-print("GPU is", "available" if tf.config.experimental.list_physical_devices("GPU") else "NOT AVAILABLE")
+from __future__ import absolute_import, division, print_function, unicode_literals
 
 import numpy
 import keras
-print(numpy.__path__)
-print(keras.__path__)
+import tensorflow as tf
 
-import sys
-print("sys.path")
-for p in sys.path:
-    print(p)
+
+
+
+print("Numpy Version: ", numpy.__version__)
+print("Keras Version: ", keras.__version__)
+print("TF Version: ", tf.__version__)
+print("Eager mode: ", tf.executing_eagerly())
+list_gpus = tf.config.experimental.list_physical_devices('GPU')
+print("Num GPUs Available: ", len(list_gpus))
+print("GPU is", "available" if list_gpus else "NOT AVAILABLE")

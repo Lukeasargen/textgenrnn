@@ -1,19 +1,21 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = 'ib_caption_96_5_drop_080'
+MODEL_NAME = 'ib_comments_01_128_4_020_100'
 
-USE_PROMPT = True
+USE_PROMPT = False  # True s interactive, False makes txt files with config below
 
 EPOCHS = [0]
 
-TEMPERATURES = [[1.0, 0.5, 0.2, 0.2],
+TEMPERATURES = [
+                [1.0, 0.5, 0.2, 0.2],
                 [0.9, 0.9, 0.5, 0.2, 0.2, 0.2],
                 [1.0, 0.2, 0.8, 0.2],
-                [1.0, 0.7, 1.0, 0.1, 0.6, 0.2],
+                [1.0, 0.7, 1.0, 0.1, 0.6, 0.2]
+                ]
 
-NUM_SAMPLES = 5
-MAX_GEN_LENGTH = 900
+NUM_SAMPLES = 30
+MAX_GEN_LENGTH = 300
 GEN_PREFIX = None
 
 
