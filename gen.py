@@ -1,7 +1,7 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = 'ib_comments_01_128_4_020_100'
+MODEL_NAME = 'linuxv1'
 
 USE_PROMPT = False  # True s interactive, False makes txt files with config below
 
