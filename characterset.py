@@ -1,6 +1,6 @@
 
 
-filename = 'datasets/ba_brad.txt'
+filename = 'dev/450k.txt'
 raw_text = open(filename, 'r', encoding='utf-8').read()
 # raw_text = raw_text.lower()
 

@@ -4,32 +4,33 @@ from textgenrnn import textgenrnn
 
 def main():
     model_cfg = {
-        'rnn_size': 256, # number of LSTM cells of each layer (128/256 recommended)
-        'rnn_layers': 3, # number of LSTM layers (>=2 recommended)
+        'rnn_size': 128, # number of LSTM cells of each layer (128/256 recommended)
+        'rnn_layers': 5, # number of LSTM layers (>=2 recommended)
         'rnn_bidirectional': True, # consider text both forwards and backward, can give a training boost
-        'max_length': 32, # number of tokens to consider before predicting the next (20-40 for characters, 5-10 for words recommended)
-        'max_words': 1000, # maximum number of words to model; the rest will be ignored (word-level model only)
+        # (20-40 for characters, 5-10 for words recommended)
+        'max_length': 26, # number of tokens to consider before predicting the next
+        'max_words': 1024, # maximum number of words to model; the rest will be ignored (word-level model only)
         'dim_embeddings': 128,
         'word_level': False, # set to True if want to train a word-level model (requires more data and smaller max_length)
     }
 
     train_cfg = {
         'line_delimited': True, # set to True if each text has its own line in the source file
-        'num_epochs': 200, # set higher to train the model for longer
+        'num_epochs': 1000, # set higher to train the model for longer
         'gen_epochs': 1, # generates sample text from model after given number of epochs
         'save_epochs': 1,
-        'batch_size': 512,
-        'train_size': 0.95, # proportion of input data to train on: setting < 1.0 limits model from learning perfectly
-        'dropout': 0.4,
-        'max_gen_length': 360,
-        'validation': True, # If train__size < 1.0, test on holdout dataset; will make overall training slower
+        'batch_size': 768,
+        'train_size': 1.0, # proportion of input data to train on: setting < 1.0 limits model from learning perfectly
+        'dropout': 0.5,
+        'max_gen_length': 250,
+        'validation': False, # If train__size < 1.0, test on holdout dataset; will make overall training slower
         'is_csv': False # set to True if file is a CSV exported from Excel/BigQuery/pandas
     }
 
-    model_name = 'linuxv1'
+    model_name = '450k_c_128_5_050'
 
     new_model = True # False for retraining
-    text_file = 'datasets/linux_input.txt'  # new model trains on this file
+    text_file = 'dev/450k.txt'  # new model trains on this file
 
     """retraining settings below"""
     # If new_model=false, these are the files used for training
@@ -100,7 +101,7 @@ def main():
 
         for i in range(len(files)):
 
-            if i == 0:  # handle the first on differently
+            if i == 0:  # handle the first differently
                 if epoch == 0:
                     weights = 'models/{}/{}_weights.hdf5'.format(model_name,model_name)
                 else:
@@ -124,7 +125,7 @@ def main():
             train_function = textgen.train_from_largetext_file if data["single_text"] else textgen.train_from_file
 
             train_function(
-                file_path=file,
+                file_path=files[i],
                 new_model=False,
                 num_epochs=train_cfg['num_epochs'],
                 gen_epochs=train_cfg['gen_epochs'],

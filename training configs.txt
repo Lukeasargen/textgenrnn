@@ -1,0 +1,37 @@
+name = more40k_w_128_3_070
+rnn_size = 128
+rnn_layers = 3
+rnn_bidirectional = True
+max_length = 6
+max_words = 1024
+dim_embeddings = 128
+word_level = True
+dropout = 0.7
+epochs = 200
+
+
+name = 250k_w_256_4_050
+rnn_size = 256
+rnn_layers = 4
+rnn_bidirectional = True
+max_length = 8
+max_words = 1024
+dim_embeddings = 128
+word_level = True
+dropout = 0.5
+epochs = 315
+
+
+name = 450k_c_128_5_050
+rnn_size = 128
+rnn_layers = 5
+rnn_bidirectional = True
+max_length = 26
+max_words = 768
+dim_embeddings = 128
+word_level = True
+dropout = 0.5
+epochs = 500
+
+
+
