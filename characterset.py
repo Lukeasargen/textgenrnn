@@ -1,6 +1,6 @@
 
 
-filename = 'dev/450k.txt'
+filename = 'datasets/doriangray.txt'
 raw_text = open(filename, 'r', encoding='utf-8').read()
 # raw_text = raw_text.lower()
 

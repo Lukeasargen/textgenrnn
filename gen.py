@@ -1,7 +1,7 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = '250k_w_256_4_050'
+MODEL_NAME = 'dorian_c_64_3_040'
 
 USE_PROMPT = False  # True s interactive, False makes txt files with config below
 
@@ -14,8 +14,8 @@ TEMPERATURES = [
                 [1.0, 0.7, 1.0, 0.1, 0.6, 0.2]
                 ]
 
-NUM_SAMPLES = 50
-MAX_GEN_LENGTH = 300
+NUM_SAMPLES = 1
+MAX_GEN_LENGTH = 1500
 GEN_PREFIX = None
 
 
