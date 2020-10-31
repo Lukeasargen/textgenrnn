@@ -26,7 +26,7 @@ dropout = 0.5
 epochs = 315
 
 
-name = 250k_c_128_4_040
+name = 100k_c_128_4_050
 rnn_size = 128
 rnn_layers = 4
 rnn_bidirectional = True
@@ -36,8 +36,8 @@ dim_embeddings = 128
 word_level = False
 line_delimited = True
 batch_size = 768
-dropout = 0.4
-epochs = 500
+dropout = 0.5
+epochs = 47
 
 
 name = dorian_c_64_3_040
@@ -52,4 +52,46 @@ line_delimited = False
 batch_size = 2048
 dropout = 0.4
 epochs = 200
+
+name = 75k_c_96_4_040
+rnn_size = 96
+rnn_layers = 4
+rnn_bidirectional = True
+max_length = 28
+max_words = 1024
+dim_embeddings = 100
+word_level = False
+line_delimited = True
+batch_size = 1024
+dropout = 0.4
+epochs = 69
+
+
+name = 75k_c_64_4_050
+rnn_size = 64
+rnn_layers = 4
+rnn_bidirectional = True
+max_length = 24
+max_words = 1024
+dim_embeddings = 96
+word_level = False
+line_delimited = True
+batch_size = 2048
+dropout = 0.5
+epochs = 170
+
+
+name = 100k_c_64_5_060
+rnn_size = 64
+rnn_layers = 5
+rnn_bidirectional = True
+max_length = 32
+max_words = 1024
+dim_embeddings = 100
+word_level = False
+line_delimited = True
+batch_size = 2048
+dropout = 0.6
+epochs = 300
+
 
