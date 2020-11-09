@@ -1,1 +1,0 @@
-{"rnn_layers": 4, "rnn_size": 256, "rnn_bidirectional": true, "max_length": 8, "max_words": 1024, "dim_embeddings": 128, "word_level": true, "single_text": false, "name": "250k_w_256_4_050", "max_gen_length": 250}

@@ -1,21 +1,21 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = 'dorian_c_64_3_040'
+MODEL_NAME = 'frank_blonde_c_48_2_070'
 
-USE_PROMPT = False  # True s interactive, False makes txt files with config below
+USE_PROMPT = True  # True s interactive, False makes txt files with config below
 
 EPOCHS = [0]
 
 TEMPERATURES = [
                 [1.0, 0.5, 0.2, 0.2],
                 [0.9, 0.9, 0.5, 0.2, 0.2, 0.2],
-                [1.0, 0.2, 0.8, 0.2],
-                [1.0, 0.7, 1.0, 0.1, 0.6, 0.2]
+                [0.8, 0.2, 0.8, 0.2],
+                [1.0, 0.7, 0.2, 0.1, 0.6, 0.2]
                 ]
 
-NUM_SAMPLES = 1
-MAX_GEN_LENGTH = 1500
+NUM_SAMPLES = 100
+MAX_GEN_LENGTH = 500
 GEN_PREFIX = None
 
 

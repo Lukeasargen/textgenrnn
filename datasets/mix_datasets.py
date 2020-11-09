@@ -1,8 +1,10 @@
 import numpy as np
 
 infile1 = "dev/com_upper.txt"
+alpha1 = 1.0
 
 infile2 = "datasets/bible.txt"
+alpha2 = 0.2
 
 out_name = "datasets/out.txt"
 
@@ -14,22 +16,26 @@ size = min(len(data1), len(data2))
 print("Size :", size)
 
 valid_indices1 = np.array(range(len(data1)))
-indices1 = np.random.choice(valid_indices1, size = size, replace = False)
+indices1 = np.random.choice(valid_indices1, size = int(size*alpha1), replace = False)
 
 valid_indices2 = np.array(range(len(data2)))
-indices2 = np.random.choice(valid_indices2, size = size, replace = False)
+indices2 = np.random.choice(valid_indices2, size = int(size*alpha2), replace = False)
 
 
 with open(out_name, 'a+') as filehandle:
-    for i in range(size):
+
+    for idx in indices1:
         try:
-            out1 = data1[indices1[i]]
-            if out1 != "":
-                filehandle.writelines("%s\n" % out1)
+            out = data1[idx]
+            if out != "":
+                filehandle.writelines("%s\n" % out)
+        except UnicodeEncodeError:
+            pass
     
-            out2 = data2[indices2[i]]
-            if out2 != "":
-                filehandle.writelines("%s\n" % out2)
-    
+    for idx in indices2:
+        try:
+            out = data2[idx]
+            if out != "":
+                filehandle.writelines("%s\n" % out)
         except UnicodeEncodeError:
             pass
