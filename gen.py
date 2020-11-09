@@ -1,9 +1,9 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = 'dorian_c_64_3_040'
+MODEL_NAME = 'bible_comments_c_48_3_050'
 
-USE_PROMPT = False  # True s interactive, False makes txt files with config below
+USE_PROMPT = True  # True s interactive, False makes txt files with config below
 
 EPOCHS = [0]
 
