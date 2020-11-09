@@ -1,6 +1,8 @@
-import os, json
+import os
+import json
 from datetime import datetime
 from textgenrnn import textgenrnn
+
 
 def main():
     model_cfg = {
@@ -38,7 +40,8 @@ def main():
     files = ['datasets/ba_brad.txt']
 
     # Generatates lot's of samples during retraining
-    temperatures = [[1.0, 0.5, 0.2, 0.2],
+    temperatures = [
+                    [1.0, 0.5, 0.2, 0.2],
                     [0.9, 0.9, 0.5, 0.2, 0.2, 0.2],
                     [1.0, 0.2, 0.8, 0.2],
                     [1.0, 0.7, 1.0, 0.1, 0.6, 0.2]]
@@ -112,7 +115,7 @@ def main():
 
             print(textgen.model.summary())
 
-            print("Source :", text_file)
+            print("Source :", files[i])
             print("Train :", train_cfg)
 
             train_function = textgen.train_from_largetext_file if data["single_text"] else textgen.train_from_file
@@ -141,6 +144,7 @@ def main():
                                         prefix=prefix,
                                         temperature=temp,
                                         max_gen_length=max_gen_length)
+
 
 if __name__ == "__main__":
     main()
