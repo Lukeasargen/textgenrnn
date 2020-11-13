@@ -111,3 +111,39 @@ base_lr = 4e-3
 final_decay = 0.01
 step_size = 10
 
+
+name = bible_com_upper_c_64_3_050
+rnn_size = 64
+rnn_layers = 3
+rnn_bidirectional = True
+max_length = 24
+max_words = 1024
+dim_embeddings = 80
+word_level = False
+line_delimited = True
+batch_size = 2560
+dropout = 0.5
+epochs = 200
+lr = sin_decay
+base_lr = 4e-3
+final_decay = 0.02
+step_size = 12
+
+
+name = upper_mix_c_80_3_070
+rnn_size = 80
+rnn_layers = 3
+rnn_bidirectional = True
+max_length = 24
+max_words = 1024
+dim_embeddings = 96
+word_level = False
+line_delimited = True
+batch_size = 2048
+dropout = 0.5
+epochs = 200
+lr = sin_decay
+base_lr = 6e-3
+final_decay = 0.02
+step_size = 14
+

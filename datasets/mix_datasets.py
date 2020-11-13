@@ -1,41 +1,65 @@
 import numpy as np
 
-infile1 = "dev/com_upper.txt"
-alpha1 = 1.0
+np.set_printoptions(precision=4, suppress=True)
 
-infile2 = "datasets/bible.txt"
-alpha2 = 0.2
+# [file path, ratio of final dataset]
+
+infiles = [
+    ["dev/com_upper.txt", 7],
+    ["datasets/bible.txt", 2],
+    ["datasets/ba_brad.txt", 1],
+    ["datasets/ba_claire.txt", 1],
+]
 
 out_name = "datasets/out.txt"
 
+def load_file(path):
+    return [line.rstrip('\n') for line in open(path, 'r')]
 
-data1 = [line.rstrip('\n') for line in open(infile1, 'r')]
-data2 = [line.rstrip('\n') for line in open(infile2, 'r')]
+data = [load_file(x[0]) for x in infiles]
 
-size = min(len(data1), len(data2))
-print("Size :", size)
+alphas = np.array([x[1] for x in infiles])
+print("alphas :", alphas)
 
-valid_indices1 = np.array(range(len(data1)))
-indices1 = np.random.choice(valid_indices1, size = int(size*alpha1), replace = False)
+data_len = np.array([len(x) for x in data])
+print("data_len :", data_len)
 
-valid_indices2 = np.array(range(len(data2)))
-indices2 = np.random.choice(valid_indices2, size = int(size*alpha2), replace = False)
+# find the highest scale to get the most data
+scale = 2.718281
+for i in range(50):
+    temp = alphas * scale
+    # print(temp)
+    # print(data_len - temp)
+    min_idx = np.argmin(data_len-temp)
+    t = (data_len[min_idx]-temp[min_idx] ) / data_len[min_idx]
+    # print(i, t, scale)
+    scale += scale*t*0.367879441  # 1/e, idk why but it works
+
+print("Final scale:", scale)
+
+get_n = np.floor(alphas * scale)
+print("Number from each dataset :", get_n)
+print("Percent of final dataset :", get_n/np.sum(get_n))
+print("Total samples :", np.sum(get_n))
 
 
-with open(out_name, 'a+') as filehandle:
+def get_random_indices(length, n):
+    return np.random.choice(range(length), size = int(n), replace = False)
 
-    for idx in indices1:
-        try:
-            out = data1[idx]
-            if out != "":
-                filehandle.writelines("%s\n" % out)
-        except UnicodeEncodeError:
-            pass
-    
-    for idx in indices2:
-        try:
-            out = data2[idx]
-            if out != "":
-                filehandle.writelines("%s\n" % out)
-        except UnicodeEncodeError:
-            pass
+indices = [get_random_indices(data_len[i], get_n[i]) for i in range(len(infiles))]
+
+print("Writing to output file...")
+
+with open(out_name, 'w+') as filehandle:
+
+    for i in range(len(infiles)):
+
+        for idx in indices[i]:
+            try:
+                out = data[i][idx]
+                if out != "":
+                    filehandle.writelines("%s\n" % out)
+            except UnicodeEncodeError:
+                pass
+
+print("Done")

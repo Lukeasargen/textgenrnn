@@ -1,7 +1,7 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = 'bible_comments_c_48_3_050'
+MODEL_NAME = 'bible_com_upper_c_64_3_050'
 
 USE_PROMPT = True  # True s interactive, False makes txt files with config below
 
@@ -14,8 +14,8 @@ TEMPERATURES = [
                 [1.0, 0.7, 0.2, 0.1, 0.6, 0.2]
                 ]
 
-NUM_SAMPLES = 100
-MAX_GEN_LENGTH = 500
+NUM_SAMPLES = 50
+MAX_GEN_LENGTH = 300
 GEN_PREFIX = None
 
 

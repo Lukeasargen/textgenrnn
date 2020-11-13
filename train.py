@@ -6,33 +6,33 @@ from textgenrnn import textgenrnn
 
 def main():
     model_cfg = {
-        'rnn_size': 128, # number of LSTM cells of each layer (128/256 recommended)
+        'rnn_size': 80, # number of LSTM cells of each layer (128/256 recommended)
         'rnn_layers': 3, # number of LSTM layers (>=2 recommended)
         'rnn_bidirectional': True, # consider text both forwards and backward, can give a training boost
         # (20-40 for characters, 5-10 for words recommended)
         'max_length': 24, # number of tokens to consider before predicting the next
         'max_words': 1024, # maximum number of words to model; the rest will be ignored (word-level model only)
-        'dim_embeddings': 128,
+        'dim_embeddings': 96,
         'word_level': False, # set to True if want to train a word-level model (requires more data and smaller max_length)
     }
 
     train_cfg = {
         'line_delimited': True, # set to True if each text has its own line in the source file
         'num_epochs': 200, # set higher to train the model for longer
-        'gen_epochs': 1, # generates sample text from model after given number of epochs
+        'gen_epochs': 10, # generates sample text from model after given number of epochs
         'save_epochs': 1,
-        'batch_size': 5120,
+        'batch_size': 2048,
         'train_size': 1.0, # proportion of input data to train on: setting < 1.0 limits model from learning perfectly
-        'dropout': 0.5,
+        'dropout': 0.7,
         'max_gen_length': 60,
         'validation': False, # If train__size < 1.0, test on holdout dataset; will make overall training slower
         'is_csv': False # set to True if file is a CSV exported from Excel/BigQuery/pandas
     }
 
-    model_name = 'com_upper_c_128_3_050'
+    model_name = 'upper_mix_c_80_3_070'
 
     new_model = True # False for retraining
-    text_file = 'dev/com_upper.txt'  # new model trains on this file
+    text_file = 'dev/out.txt'  # new model trains on this file
 
     """retraining settings below"""
     # If new_model=false, these are the files used for training
