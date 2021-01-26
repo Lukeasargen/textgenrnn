@@ -6,38 +6,39 @@ from textgenrnn import textgenrnn
 
 def main():
     model_cfg = {
-        'rnn_size': 80, # number of LSTM cells of each layer (128/256 recommended)
-        'rnn_layers': 3, # number of LSTM layers (>=2 recommended)
+        'rnn_size': 144, # number of LSTM cells of each layer (128/256 recommended)
+        'rnn_layers': 5, # number of LSTM layers (>=2 recommended)
         'rnn_bidirectional': True, # consider text both forwards and backward, can give a training boost
         # (20-40 for characters, 5-10 for words recommended)
-        'max_length': 24, # number of tokens to consider before predicting the next
+        'max_length': 26, # number of tokens to consider before predicting the next
         'max_words': 1024, # maximum number of words to model; the rest will be ignored (word-level model only)
-        'dim_embeddings': 96,
+        'dim_embeddings': 176,
         'word_level': False, # set to True if want to train a word-level model (requires more data and smaller max_length)
     }
 
     train_cfg = {
         'line_delimited': True, # set to True if each text has its own line in the source file
-        'num_epochs': 200, # set higher to train the model for longer
-        'gen_epochs': 10, # generates sample text from model after given number of epochs
+        'num_epochs': 142, # set higher to train the model for longer
+        'gen_epochs': 1, # generates sample text from model after given number of epochs
         'save_epochs': 1,
-        'batch_size': 2048,
+        'batch_size': 640,
         'train_size': 1.0, # proportion of input data to train on: setting < 1.0 limits model from learning perfectly
-        'dropout': 0.7,
-        'max_gen_length': 60,
+        'dropout': 0.3,
+        'max_gen_length': 100,
         'validation': False, # If train__size < 1.0, test on holdout dataset; will make overall training slower
         'is_csv': False # set to True if file is a CSV exported from Excel/BigQuery/pandas
     }
 
-    model_name = 'upper_mix_c_80_3_070'
+    model_name = '800k_c_144_5_030'
 
-    new_model = True # False for retraining
-    text_file = 'dev/out.txt'  # new model trains on this file
+    new_model = False # False for retraining
+    text_file = 'dev/800k.txt'  # new model trains on this file
+    # text_file = 'datasets/sample250.txt'  # new model trains on this file
 
     """retraining settings below"""
     # If new_model=false, these are the files used for training
     epoch = 0 # what epoch to resume training. 0 loads the last complete epoch
-    files = ['datasets/ba_brad.txt']
+    files = ['dev/800k.txt']
 
     # Generatates lot's of samples during retraining
     temperatures = [
@@ -46,7 +47,7 @@ def main():
                     [1.0, 0.2, 0.8, 0.2],
                     [1.0, 0.7, 1.0, 0.1, 0.6, 0.2]]
     n = 20   # number of texts to generate: set much higher if model was trained as line-delimited
-    max_gen_length = 300   # maximum size of each text: set much higher if model was trained as a single-file
+    max_gen_length = 200   # maximum size of each text: set much higher if model was trained as a single-file
     prefix = None
 
     if new_model:
