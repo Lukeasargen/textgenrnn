@@ -3,20 +3,17 @@ from textgenrnn import textgenrnn
 
 MODEL_NAME = '800k_c_144_5_030'
 
-USE_PROMPT = False  # True s interactive, False makes txt files with config below
+USE_PROMPT = True  # True s interactive, False makes txt files with config below
 
 EPOCHS = [0]
 
 TEMPERATURES = [
         [1.0, 0.3, 0.2, 0.1],
-        [1.0, 0.9, 0.2, 0.2, 0.2, 0.2]
+        [1.0, 0.9, 0.2, 0.2, 0.2, 0.2],
         [1.0, 0.5, 0.2, 0.2],
         [1.0, 0.7, 0.4, 0.4],
         [0.9, 0.9, 0.5, 0.2, 0.2, 0.2],
-        [0.8, 0.2, 0.8, 0.2],
-        [1.0, 0.7, 0.2, 0.1, 0.6, 0.2],
-        [2.0, 0.5, 0.5, 0.2, 0.2, 0.1, 0.1],
-        [1.5, 1.0, 0.9, 0.7, 0.4, 0.4]
+        [0.8, 0.2, 0.8, 0.2]
     ]
 
 NUM_SAMPLES = 150

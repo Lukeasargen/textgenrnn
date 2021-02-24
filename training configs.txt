@@ -151,3 +151,64 @@ base_lr = 1e-3
 final_decay = 0.004
 step_size = 8
 
+
+name = 250k_c_112_4_050_n
+rnn_size = 112
+rnn_layers = 4
+rnn_bidirectional = False
+max_length = 26
+max_words = 1024
+dim_embeddings = 128
+word_level = False
+line_delimited = True
+batch_size = 1856
+dropout = 0.5
+epochs = 200
+lr = sin_decay
+base_lr = 4e-3
+final_decay = 0.008
+step_size = 8
+stop at 119 epochs
+loss = 1.1596
+
+
+name = 250k_c_96_6_020_n
+rnn_size = 96
+rnn_layers = 6
+rnn_bidirectional = False
+max_length = 24
+max_words = 1024
+dim_embeddings = 96
+word_level = False
+line_delimited = True
+batch_size = 1664
+dropout = 0.2
+epochs = 200
+lr = sin_decay
+base_lr = 4e-3
+final_decay = 0.001
+step_size = 8
+stop at 170 epochs
+loss = 1.1438
+
+
+name = 100k_c_64_8_020
+rnn_size = 64
+rnn_layers = 8
+rnn_bidirectional = True
+max_length = 24
+max_words = 1024
+dim_embeddings = 128
+word_level = False
+line_delimited = True
+batch_size = 1024
+dropout = 0.2
+epochs = 200
+lr = sin_decay
+base_lr = 4e-3
+final_decay = 0.004
+step_size = 10
+stop at  epochs
+loss = 
+
+
