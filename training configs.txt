@@ -208,7 +208,27 @@ lr = sin_decay
 base_lr = 4e-3
 final_decay = 0.004
 step_size = 10
-stop at  epochs
-loss = 
+stop at 175 epochs
+loss = 1.0673
+
+
+name = 1M2_c_256_4_050
+rnn_size = 256
+rnn_layers = 4
+rnn_bidirectional = True
+max_length = 28
+max_words = 1024
+dim_embeddings = 256
+word_level = False
+line_delimited = True
+batch_size = 2048
+dropout = 0.4
+epochs = 200
+lr = sin_decay
+base_lr = 4e-3
+final_decay = 0.004
+step_size = 10
+stop at 61 epochs
+loss = 1.2057
 
 
