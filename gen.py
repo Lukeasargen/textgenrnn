@@ -1,7 +1,7 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = '1M2_c_256_4_050'
+MODEL_NAME = '800k_c_144_5_030'
 
 USE_PROMPT = True  # True s interactive, False makes txt files with config below
 
@@ -39,9 +39,18 @@ def gen_prompt(epoch=0):
 
     while True:
         prefix = input("Prefix : ")
-        temp = float(input("Temp : "))
-        samples = int(input("Samples : "))
-        length = int(input("Max Length : "))
+        try:
+            temp = float(input("Temp : "))
+        except:
+            temp = 0.3
+        try:
+            samples = int(input("Samples : "))
+        except:
+            samples = 2
+        try:
+            length = int(input("Max Length : "))
+        except:
+            length = 100
         tts = True if input("tts [y/n] : ")=="y" else False
         generated_texts = textgen.generate(n=samples
                                         ,prefix=prefix
@@ -51,7 +60,7 @@ def gen_prompt(epoch=0):
         if tts:
             import pyttsx3 # pip install pyttsx3
             engine = pyttsx3.init()
-            engine.setProperty('rate', 145)
+            engine.setProperty('rate', 140)
             engine.setProperty('volume',1.0)
             engine.setProperty('voice', engine.getProperty('voices')[0].id)
 

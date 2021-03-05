@@ -134,7 +134,7 @@ final_decay = 0.008
 step_size = 12
 
 
-name = 800k_c_144_5_040
+name = 800k_c_144_5_030
 rnn_size = 144
 rnn_layers = 5
 rnn_bidirectional = True
@@ -222,7 +222,7 @@ dim_embeddings = 256
 word_level = False
 line_delimited = True
 batch_size = 2048
-dropout = 0.4
+dropout = 0.5
 epochs = 200
 lr = sin_decay
 base_lr = 4e-3
