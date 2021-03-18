@@ -208,7 +208,6 @@ lr = sin_decay
 base_lr = 4e-3
 final_decay = 0.004
 step_size = 10
-stop at  epochs
-loss = 
+stop at 170 epochs
 
 
