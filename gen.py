@@ -39,16 +39,38 @@ def gen_prompt(epoch=0):
 
     while True:
         prefix = input("Prefix : ")
-        temp = float(input("Temp : "))
-        samples = int(input("Samples : "))
-        length = int(input("Max Length : "))
+        try:
+            temp = float(input("Temp : "))
+        except:
+            temp = 0.3
+        try:
+            samples = int(input("Samples : "))
+        except:
+            samples = 2
+        try:
+            length = int(input("Max Length : "))
+        except:
+            length = 100
+        tts = True if input("tts [y/n] : ")=="y" else False
         generated_texts = textgen.generate(n=samples
                                         ,prefix=prefix
                                         ,temperature=temp
                                         ,max_gen_length=length
                                         ,return_as_list=True)
+        if tts:
+            import pyttsx3 # pip install pyttsx3
+            engine = pyttsx3.init()
+            engine.setProperty('rate', 140)
+            engine.setProperty('volume',1.0)
+            engine.setProperty('voice', engine.getProperty('voices')[0].id)
+
         for text in generated_texts:
             print(text)
+            if tts:
+                engine.say(text)
+                engine.runAndWait()
+                engine.stop()
+
 
 def gen_txt(epochs=[0], temperatures=[1.0], samples=10, max_len=300, prefix=None):
 
