@@ -2,8 +2,12 @@
 
 Install to use tts
 
-```pyttsx3```
+```pip install pyttsx3```
 
+
+This version of kears works best for me:
+
+```pip install --user keras==2.3.1```
 
 ## Notes
 * large batch size is better, training can take longer to converge
@@ -37,6 +41,11 @@ def sin_decay(epoch):
     decay = base_lr*(final_decay**(epoch/num_epochs))
     inner_sin = (2*pi*(epoch%step_size))/step_size
     lr = decay + (0.5*(base_lr*final_decay*(sin(inner_sin)+1)))
+    print("LR : {:.6f}".format(lr))
+    return lr
+
+def cos_decay(epoch):
+    lr = base_lr * cos( (pi*epoch) / (2*num_epochs))
     print("LR : {:.6f}".format(lr))
     return lr
 ```
