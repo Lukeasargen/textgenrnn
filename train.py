@@ -6,11 +6,11 @@ from textgenrnn import textgenrnn
 
 def main():
     model_cfg = {
-        'rnn_size': 128, # number of LSTM cells of each layer (128/256 recommended)
-        'rnn_layers': 4, # number of LSTM layers (>=2 recommended)
-        'rnn_bidirectional': True, # consider text both forwards and backward, can give a training boost
+        'rnn_size': 512, # number of LSTM cells of each layer (128/256 recommended)
+        'rnn_layers': 2, # number of LSTM layers (>=2 recommended)
+        'rnn_bidirectional': False, # consider text both forwards and backward, can give a training boost
         # (20-40 for characters, 5-10 for words recommended)
-        'max_length': 28, # number of tokens to consider before predicting the next
+        'max_length': 32, # number of tokens to consider before predicting the next
         'max_words': 1024, # maximum number of words to model; the rest will be ignored (word-level model only)
         'dim_embeddings': 128,
         'word_level': False, # set to True if want to train a word-level model (requires more data and smaller max_length)
@@ -18,27 +18,27 @@ def main():
 
     train_cfg = {
         'line_delimited': True, # set to True if each text has its own line in the source file
-        'num_epochs': 200, # set higher to train the model for longer
-        'gen_epochs': 10, # generates sample text from model after given number of epochs
-        'save_epochs': 10,
-        'batch_size': 512,
+        'num_epochs': 50, # set higher to train the model for longer
+        'gen_epochs': 1, # generates sample text from model after given number of epochs
+        'save_epochs': 5,
+        'batch_size': 768,
         'train_size': 1.0, # proportion of input data to train on: setting < 1.0 limits model from learning perfectly
-        'dropout': 0.25,
+        'dropout': 0.2,
         'max_gen_length': 80,
         'validation': False, # If train__size < 1.0, test on holdout dataset; will make overall training slower
         'is_csv': False # set to True if file is a CSV exported from Excel/BigQuery/pandas
     }
 
-    model_name = '800k_c_128_4_025'
+    model_name = '1M2_512_2_20'
 
-    new_model = True # False for retraining
-    text_file = 'dev/800k.txt'  # new model trains on this file
-    # text_file = 'datasets/sample1k.txt'  # new model trains on this file
+    new_model = False  # False for retraining
+    text_file = 'dev/1M2.txt'  # new model trains on this file
+    # text_file = 'datasets/dorian_clean.txt'  # new model trains on this file
 
     """retraining settings below"""
     # If new_model=false, these are the files used for training
     epoch = 0 # what epoch to resume training. 0 loads the last complete epoch
-    files = ['dev/800k.txt']
+    files = ['dev/1M2.txt']
 
     # Generatates lot's of samples during retraining
     temperatures = [
@@ -104,8 +104,8 @@ def main():
                     weights = 'models/{}/{}_weights.hdf5'.format(model_name,model_name)
                 else:
                     weights = 'epochs/{}/{}_weights_epoch_{}.hdf5'.format(model_name,model_name,epoch)
-            else:  # after hte first one, then load from current directory bc that's were textgenrnn saves
-                weights = '{}_weights.hdf5'.format(model_name)
+            else:
+                weights = 'models/{}/{}_weights.hdf5'.format(model_name, model_name)
 
             print("Loading old model...")
 

@@ -2,13 +2,14 @@
 
 Install to use tts
 
-```pyttsx3```
+```
+pip install pyttsx3
+```
 
 
 ## Notes
 * large batch size is better, training can take longer to converge
-* use an exponential loss schedule instead of linear, linear had the loss too high for too long and the model was noising and more likely to diverge
-* high dropout (>0.5) can help is dataset is small
+* high dropout (>0.5) can help if dataset is small
 * validation wastes a lot of time, don't do it unless you have a reason
 
 
@@ -31,12 +32,17 @@ def exp_decay(epoch):
 
 step_size = 14
 
-from math import sin, pi
+from math import sin, pi, cos
 
 def sin_decay(epoch):
     decay = base_lr*(final_decay**(epoch/num_epochs))
     inner_sin = (2*pi*(epoch%step_size))/step_size
     lr = decay + (0.5*(base_lr*final_decay*(sin(inner_sin)+1)))
+    print("LR : {:.6f}".format(lr))
+    return lr
+
+def cos_decay(epoch):
+    lr = base_lr * cos( (pi*epoch) / (2*num_epochs))
     print("LR : {:.6f}".format(lr))
     return lr
 ```

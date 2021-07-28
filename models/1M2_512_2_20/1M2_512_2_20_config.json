@@ -1,0 +1,1 @@
+{"rnn_layers": 2, "rnn_size": 512, "rnn_bidirectional": false, "max_length": 32, "max_words": 1024, "dim_embeddings": 128, "word_level": false, "single_text": false, "name": "1M2_512_2_30", "max_gen_length": 80}

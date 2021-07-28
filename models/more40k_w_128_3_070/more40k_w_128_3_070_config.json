@@ -1,1 +1,0 @@
-{"rnn_layers": 3, "rnn_size": 128, "rnn_bidirectional": true, "max_length": 6, "max_words": 1024, "dim_embeddings": 128, "word_level": true, "single_text": false, "name": "more40k_w_128_3_070", "max_gen_length": 250}

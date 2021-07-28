@@ -1,7 +1,7 @@
 from datetime import datetime
 from textgenrnn import textgenrnn
 
-MODEL_NAME = '800k_c_128_4_025'
+MODEL_NAME = '1M2_512_2_20'
 
 USE_PROMPT = True  # True s interactive, False makes txt files with config below
 
