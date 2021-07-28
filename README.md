@@ -7,6 +7,10 @@ pip install pyttsx3
 ```
 
 
+This version of kears works best for me:
+
+```pip install --user keras==2.3.1```
+
 ## Notes
 * large batch size is better, training can take longer to converge
 * high dropout (>0.5) can help if dataset is small
